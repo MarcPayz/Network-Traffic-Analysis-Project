@@ -2,7 +2,7 @@
 
 ## Objective
 
-The primary goal of conducting this home lab was to enhance my understanding of Wireshark and its functionalities. Specifically, I aimed to sharpen my skills in utilizing Wireshark for packet analysis by exploring the following key areas such display filters, TCP/TLS streams, and malware detection.
+The primary goal of conducting this home lab is to enhance my understanding of Wireshark and its functionalities. Specifically, I aimed to sharpen my skills in utilizing Wireshark for packet analysis by exploring the following key areas such display filters, TCP/TLS streams, and malware detection.
 
 ### Skills Learned
 
@@ -62,7 +62,11 @@ To begin analyzing the packets, I applied a Display filter to only see DNS infor
 <br>
 <br>
 
+Ref 7: Establishing FTP Connection to Metaspoitable2 
 ![Screenshot 2024-03-20 134646](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/ece35682-94e5-4889-87d0-a1f453692c13)
+Next, I will analyze the traffic that goes towards the Metaspoitable2 machine when I authenticate in the clear and see the process in Wireshark.
+
+<br>
 
 
 
