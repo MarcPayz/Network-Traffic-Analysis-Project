@@ -9,7 +9,7 @@ The primary goal of conducting this home lab is to enhance my understanding of W
 - Understanding of tools to utilize in wireshark
 - Proficiency in analyzing and interpreting network logs.
 - Ability to recognize IoC through traffic analysis.
-- Decryption process to view TLS data.
+- Decryption process to view malicous TLS data.
   
 ### Tools Used
 
@@ -25,7 +25,7 @@ Since wireshark is already installed in Kali linux, I opened up a terminal and t
 
 Ref 1: Wireshark home page:
 ![Screenshot (192)](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/3019b282-93dd-4e10-9927-ddd0ad620e0e)
-After executnig the command "sudo wireshark", wireshark will open up and I was prompted with these options. I selected the option "eth0" which is the name of my network adapter. To find out the name of your network adapter, you can utilize the ifconfig command and it will prompt you with that information. 
+After executing the command "sudo wireshark", wireshark will open up and I was prompted with these options. I selected the option "eth0" which is the name of my network adapter. To find out the name of your network adapter, you can utilize the ifconfig command and it will prompt you with that information. 
 
 <br>
 <br>
@@ -73,7 +73,7 @@ Next, I will analyze the traffic that goes towards the Metaspoitable2 machine wh
 Ref 8 & 9: Wireshark FTP authentication capture and TCP stream:
 ![Screenshot 2024-03-18 204151](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/2abde1f8-3741-4f59-845a-a37a2a4631ca)
 ![Screenshot 2024-03-18 205148](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/603920ac-c739-42e5-a20d-e23262c1bd60)
-Looking at the authentication process packet by packet through wireshark, it shows how important it is to authenticate through an encrypted tunnel such as using SFTP or FTPS. AS you can see since I only authenticated via FTP, I was able to clearly see the authentication details  when I follow the TCP stream. Looking at the TCP stream, sometimes the data can be a litle hard to see such as the username. The data shows multiple letters but if you look on Ref 8, you can see the username clear as day.
+Looking at the authentication process packet by packet through wireshark, it shows how important it is to authenticate through an encrypted tunnel such as using SFTP or FTPS. As you can see since I only authenticated via FTP, I was able to clearly see the authentication details  when I follow the TCP stream. Looking at the TCP stream, sometimes the data can be a litle hard to see such as the username. The data shows multiple letters but if you look on Ref 8, you can see the username clear as day.
 
 <br>
 <br>
@@ -102,7 +102,7 @@ Looking at the TCP stream, there isn't much information you can see because all 
 Ref 13: TLS decryption Process:
 ![Screenshot 2024-03-18 213223](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/66f1cd32-6b45-470d-9c2f-f956454d3624)
 
-Let's say I recieved the decryption keys to be able to view this data. To utilize the decryption key into wireshark, I selected the "edit" icon then I clicked on "preferences". Once I'm in the preferences window, I typed "TLS" to filter that I only want to decrypt TLS traffic, then where it says "(Pre)-Master-Secret log filename, I will insert the .txt file that holds the decryption keys to analyze the traffic. 
+Let's say I recieved the decryption keys to be able to view this data. To utilize the decryption key into wireshark, I selected the "edit" icon then I clicked on "preferences". Once I'm in the preferences window, I typed "TLS" to filter that I only want to decrypt TLS traffic, then where it says "(Pre)-Master-Secret log filename", I will insert the .txt file that holds the decryption keys to analyze the traffic. 
 
 <br>
 <br>
@@ -128,17 +128,47 @@ Ref 16: Suspicious GET request:
 ![Screenshot 2024-03-21 100513](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/c763aebc-1963-4f10-bc5a-e4309cbb823d)
 Taking a closer look at the results from the display filter, I can see that there was a interesting packet that is requesting a "GET / invest_20.dll. DLL also known as dynamic link library is a file that contains a collection of functions and data that can be used by multiple programs simultaneously. Instead of each program having its own copy of these functions and data, they can all share the same DLL file. "GET" is the HTTP method used in the request. It indicates that the client (such as a web browser or another program) is requesting data from the server. Combining these two together, we can assume the client is asking the server to provide the content of the "invest_20.dll" file. This typically occurs in the context of web browsing or web-based applications where the client (a web browser) sends an HTTP request to the server to retrieve a specific resource, in this case, a DLL file.
 
+<br>
+<br>
+<br>
+
 Ref 17: Following the HTTP stream:
 ![GET](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/456ecee7-3e97-4c50-bbed-9d271c52e194)
 Since this GET request is coming from HTTP, we can follow the HTTP stream to get a better understanding of what's happening. Looking at the HTTP stream we can see see the GET request being made from the red text, and we can see the server approving that request by saying "HTTP/1.1 200 OK. Everything else after that the actual dll. As a threat hunter or malware analyst, my next step is to download the contents within the dll as a dll file and then analyze it through a utility such a virustotal.
 
+<br>
+<br>
+<br>
+
+Ref 18: Exporting dll packet:
+![Screenshot 2024-03-18 215516](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/0860813f-f290-490e-96cb-808628c0d7b9)
+The next thing I would want to do is to analyze this dll packet. The really cool thing about wireshark is it allows you to export specific packets which is super helpful because I can save the file and open up the file in virustotal to learn more about it. 
+
+<br>
+<br>
+<br>
+
+Ref 19: Virustotal general information:
+![Screenshot 2024-03-18 215743](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/20bb4b22-996d-4fb1-a230-107668623a6f)
+We are dealing with a malware called the Drydex malware. Drydex is a sophisticated banking trojan that primarily targets Windows users. It spreads through phishing emails and malicious attachments, aiming to steal sensitive financial information such as banking credentials and personal data. Once this malware is installed on a victim's computer, Drydex can silently capture login credentials, perform fraudulent transactions, and even download additional malware. Looking at the information provided from VirusTotal, the detection ratio score is 57/71. This means 57 out of 71 security vendors that perform vulnerability scans flagged this .dll file as malicious. We can also see that the common file size for this malicious DLL file is 453.00 KB, which is an extremely small file size. This small file size can indicate why 100% of the security vendors didn't identify the file as malicious.
+
+<br>
+<br>
+
+Ref 20: Common file name:
+
+![file type](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/037f465c-12d6-400a-bda9-f01be5cf5359)
+
+Looking at the data provided from VirusTotal, the Drydex malware can come in three file types. It can come in a zipfile called invest_20.zip, which is the file type that the victim in our scenario opened. Other names include invoice.doc and investments.doc, which are Office Open XML documents. For the XML document file type, the malware is triggered when the victim opens the .doc file extension, running a malicious script embedded within the document.
+
+<br>
+<br>
+
+Conclusion:
+In conclusion, I can report to my supervisor that the user who got infected with the malware downloaded a malware called the Drydex malware, and it was a zip file called invest_20.zip that triggered it. They most likely downloaded and received the zip file contents through email, which led them to download an Excel document. They opened it with Excel and executed a macro, which then executed code to download a malicious DLL, subsequently infecting the system.
 
 
-
-
-
-
-
+## Lab finished.
 
 
 
