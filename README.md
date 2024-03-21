@@ -120,6 +120,30 @@ Ref 15: Taking advantage of display filter:
 ![Screenshot 2024-03-18 220441](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/e37a14ce-5f6b-49dc-bb74-88e00d018809)
 Now that we know a POST request was made via HTTP, we can utilize the display filter to specifically find the packets that were involved in this event. In the filter I wrote '(http.request or tls.handshake.type eq 1) and !(ssdp)'. To explain this display filter: since we know there was an HTTP request made, I included 'http.request'. I utilized the 'or' logical operator, which means either this condition or the other condition, and I wrote 'tls.handshake.type eq 1' because that condition filters for packets that are part of TLS (Transport Layer Security) handshakes and have a handshake type equal to 1. In TLS, handshake type 1 corresponds to 'ClientHello' messages, which are the initial messages sent by clients to initiate a TLS handshake with a server. As for 'and', this means I want to add another condition to the filter. '!' represents the NOT operator, which means to negate a condition. Now, for SSDP, this condition filters for packets related to the Simple Service Discovery Protocol (SSDP), which is used for discovering network services. We want to exclude those types of packets because SSDP is used for discovering network services, such as printers, media servers, or smart devices, within a local network. For our scenario, we want to exclude that type of traffic because SSDP traffic is not relevant to the analysis objective.
 
+<br>
+<br>
+<br>
+
+Ref 16: Suspicious GET request:
+![Screenshot 2024-03-21 100513](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/c763aebc-1963-4f10-bc5a-e4309cbb823d)
+Taking a closer look at the results from the display filter, I can see that there was a interesting packet that is requesting a "GET / invest_20.dll. DLL also known as dynamic link library is a file that contains a collection of functions and data that can be used by multiple programs simultaneously. Instead of each program having its own copy of these functions and data, they can all share the same DLL file. "GET" is the HTTP method used in the request. It indicates that the client (such as a web browser or another program) is requesting data from the server. Combining these two together, we can assume the client is asking the server to provide the content of the "invest_20.dll" file. This typically occurs in the context of web browsing or web-based applications where the client (a web browser) sends an HTTP request to the server to retrieve a specific resource, in this case, a DLL file.
+
+Ref 17: Following the HTTP stream:
+![GET](https://github.com/MarcPayz/Network-Traffic-Analysis-Lab/assets/163923336/456ecee7-3e97-4c50-bbed-9d271c52e194)
+Since this GET request is coming from HTTP, we can follow the HTTP stream to get a better understanding of what's happening. Looking at the HTTP stream we can see see the GET request being made from the red text, and we can see the server approving that request by saying "HTTP/1.1 200 OK. Everything else after that the actual dll. As a threat hunter or malware analyst, my next step is to download the contents within the dll as a dll file and then analyze it through a utility such a virustotal.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
