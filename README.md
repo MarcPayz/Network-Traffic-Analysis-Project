@@ -13,9 +13,9 @@ The primary goal of conducting this home lab is to enhance my understanding of W
   
 ### Tools Used
 
-- Network analysis tools (such as Wireshark) for capturing and examining network traffic.
-- Established communication between Metasploitable2 Linux and Kali Linux virtual machines to facilitate packet analysis in Wireshark.
-- Utilized Virustotal to analyze malware files.
+- Wireshark.
+- Metasploitable2 Linux and Kali Linux.
+- Virustotal.
 
 ## Steps
 
