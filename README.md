@@ -1,8 +1,8 @@
-# Network Traffic Analysis Lab
+# Network Traffic Analysis Project
 
 ## Objective
 
-The primary goal of conducting this home lab is to enhance my understanding of Wireshark and its functionalities. Specifically, I aimed to sharpen my skills in utilizing Wireshark for packet analysis by exploring the following key areas such display filters, TCP/TLS streams, and malware detection.
+The primary goal of conducting this project is to enhance my understanding of Wireshark and its functionalities. Specifically, I aimed to sharpen my skills in utilizing Wireshark for packet analysis by exploring the following key areas such display filters, TCP/TLS streams, and malware detection.
 
 ### Skills Learned
 
@@ -19,7 +19,7 @@ The primary goal of conducting this home lab is to enhance my understanding of W
 
 ## Steps
 
-To begin this lab, I booted up a Kali linux vm through VMware Workstation and authenticated with my credentials.
+To begin this project, I booted up a Kali linux vm through VMware Workstation and authenticated with my credentials.
 
 Since wireshark is already installed in Kali linux, I opened up a terminal and typed out the command sudo wireshark. I utilized sudo because wireshark doesn't allow you to capture packets without elavated privilages. It needs elavated privilages because wireshark requires access to the network interface which typically requires elavated permissions. 
 
