@@ -197,7 +197,7 @@ Conclusion:
 In conclusion, if I was working as a Security Analyst, I can report to my supervisor that the user who got infected with the malware downloaded a malware called the Drydex malware, and it was a zip file called invest_20.zip that triggered it. I know this because looking back at Ref 18, that "interesting packet" had invest_20.ll all over it.  They most likely downloaded and received the zip file contents through email, which led them to download an Excel document. They opened it with Excel and executed a macro, which then executed code to download a malicious DLL, subsequently infecting the system.
 
 
-## PROJECT FINISHED.
+## Project Completed.
 
 
 
