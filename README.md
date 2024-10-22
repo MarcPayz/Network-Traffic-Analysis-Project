@@ -1,4 +1,4 @@
-# Network Traffic Analysis Project
+# Network Malware Traffic Analysis Project
 
 ## Objective
 
